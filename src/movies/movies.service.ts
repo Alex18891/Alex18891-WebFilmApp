@@ -8,8 +8,8 @@ export class MoviesService {
     return 'This action adds a new movie';
   }
 
-  findAll() {
-    return `This action returns all movies`;
+  findAll(page) {
+    return page;
   }
 
   findOne(id: number) {

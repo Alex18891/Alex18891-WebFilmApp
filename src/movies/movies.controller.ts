@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query  } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -13,8 +13,16 @@ export class MoviesController {
   }
 
   @Get()
-  findAll() {
-    return this.moviesService.findAll();
+  findAll(@Query('page') page) {
+  const OMDb_KEY = "9ed2556f";
+  const searchMovies = async(page)=>
+  {
+    const url = `https://www.omdbapi.com/?apikey=${OMDb_KEY}&s=${page}`;
+    const response =  await fetch(url);
+    return await response.json();
+  }
+
+  return this.moviesService.findAll(searchMovies(page))
   }
 
   @Get(':id')
